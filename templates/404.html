@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404 - Page Not Found</title>
+    <style>
+        @keyframes glitch1 {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch2 {
+            0% { transform: translate(0); }
+            20% { transform: translate(2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(-2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        body {
+            background:rgb(11, 11, 46);
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 4rem;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        h1::before, h1::after {
+            content: "404 Error";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        h1::before {
+            color: red;
+            animation: glitch1 0.3s infinite linear alternate;
+        }
+
+        h1::after {
+            color: blue;
+            animation: glitch2 0.3s infinite linear alternate;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+
+        a {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #e94560;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background: #ff2e63;
+        }
+    </style>
+</head>
+<body>
+    <h1>404 Error</h1>
+    <p>Oops! The page you're looking for doesn't exist.</p>
+    <a href="{% url 'home' %}">Go Back Home</a>
+</body>
+</html>

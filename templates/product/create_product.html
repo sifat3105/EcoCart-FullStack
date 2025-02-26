@@ -1,0 +1,204 @@
+{% extends 'base/seller_base.html' %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="container-fluid  dashboard-content">
+        <!-- ============================================================== -->
+        <!-- pageheader -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    
+                    <div class="page-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Forms</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Products Creation</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end pageheader -->
+        <!-- ============================================================== -->
+     
+            
+            
+            <div class="row">
+                <!-- ============================================================== -->
+                <!-- valifation types -->
+                <!-- ============================================================== -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header">Create Products</h5>
+                        <div class="card-body">
+                            <form id="validationform" data-parsley-validate="" novalidate="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                            
+                                <!-- Product Name -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Product Name</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="text" name="name" required="" placeholder="Enter product name" class="form-control">
+                                    </div>
+                                </div>
+                            
+                                <!-- Category -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Category</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <select name="category" required="" class="form-control">
+                                            <option value="" disabled selected>Select a category</option>
+                                            {% for category in categories %}
+                                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                                <!-- Short Description -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Short Description</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input name="short_description" required="" placeholder="Enter product short description" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <!-- Description -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Description</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <textarea name="description" required="" placeholder="Enter product description" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            
+                                <!-- Price -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Price</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="number" name="price" required="" step="0.01" placeholder="Enter price" class="form-control">
+                                    </div>
+                                </div>
+                            
+                                <!-- Discounted Price -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Discounted Price</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="number" name="discounted_price" step="0.01" placeholder="Enter discounted price" class="form-control">
+                                    </div>
+                                </div>
+                            
+                            
+                                <!-- Stock -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Stock</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="number" name="stock" required="" placeholder="Enter stock quantity" class="form-control">
+                                    </div>
+                                </div>
+                                
+                                <!-- Weight -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Weight</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="text" name="weight" placeholder="Enter weight (e.g., 0.79 kg)" class="form-control">
+                                    </div>
+                                </div>
+
+                                <!-- Dimensions -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Dimensions</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="text" name="dimensions" placeholder="Enter dimensions (e.g., 110x33x100 cm)" class="form-control">
+                                    </div>
+                                </div>
+
+                                <!-- Materials -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Materials</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="text" name="materials" placeholder="Enter materials (e.g., 60% cotton)" class="form-control">
+                                    </div>
+                                </div>
+
+                                <!-- Color -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Color</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="text" name="color" placeholder="Enter available colors (e.g., Black, Blue, Grey)" class="form-control">
+                                    </div>
+                                </div>
+
+                                <!-- Size -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Size</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="text" name="size" placeholder="Enter available sizes (e.g., XL, L, M, S)" class="form-control">
+                                    </div>
+                                </div>
+                                <!-- Main Image -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Main Image</label>
+                                    <div class="col-12 col-sm-8 col-lg-6">
+                                        <input type="file" name="image" required="" class="form-control">
+                                    </div>
+                                </div>
+                            
+                                <!-- Additional Images -->
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Additional Images</label>
+                                    <div class="col-12 col-sm-8 col-lg-6" id="additional-images-container">
+                                        <div class="additional-image mb-3">
+                                            <input type="file" name="images" class="form-control">
+                                            <button type="button" class="btn btn-sm btn-danger mt-2 remove-image">Remove</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-8 col-lg-6 offset-sm-3">
+                                        <button type="button" id="add-more-images" class="btn btn-sm btn-primary">Add More Images</button>
+                                    </div>
+                                </div>
+                            
+                                <!-- Submit and Cancel Buttons -->
+                                <div class="form-group row text-right">
+                                    <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                        <button type="submit" class="btn btn-space btn-primary">Submit</button>
+                                        <button type="button" class="btn btn-space btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end valifation types -->
+                <!-- ============================================================== -->
+            </div>
+   
+    </div>
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript: void(0);">About</a>
+                        <a href="javascript: void(0);">Support</a>
+                        <a href="javascript: void(0);">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end footer -->
+    <!-- ============================================================== -->
+</div>
+{% endblock content %}
