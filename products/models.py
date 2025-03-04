@@ -3,6 +3,7 @@ import uuid
 from django.utils.text import slugify
 from accounts.models import Seller
 from django.core.files.base import ContentFile
+from django.urls import reverse
 import requests
 
 class Category(models.Model):
@@ -75,6 +76,8 @@ class Product(models.Model):
             return self.image_url
         else:
             return "path/to/default/image.jpg"
+        
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)

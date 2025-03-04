@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from products.views import all_product_views , Category
-
+from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator 
+from products.views import all_product_views, Category
 import requests
 from django.http import JsonResponse
 from django.utils.text import slugify
@@ -63,8 +63,48 @@ def fetch_and_create_products(request):
 
 def home_views(request):
     # fetch_and_create_products(request)
-    product_list= all_product_views(request)
+    all_products= all_product_views(request)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        print("AJAX request received")
+        # Handle AJAX request for loading more products
+        page_number = request.GET.get('page', 1)  # Get the page number from the request
+        paginator = Paginator(all_products, 10)  # Show 10 products per page
+        page_obj = paginator.get_page(page_number)
+
+        # Serialize the products for JSON response
+        product_data = [
+            {
+                'name': product.name,
+                'price': product.price,
+                'image': product.get_image(),
+                'slug': product.slug,
+            }
+            for product in page_obj
+        ]
+
+        # Return JSON response
+        return JsonResponse({
+            'products': product_data,
+            'has_next': page_obj.has_next(),
+        })
+
+    else:
+        # Handle initial page load
+        paginator = Paginator(all_products, 10)  # Show 10 products per page
+        page_obj = paginator.get_page(1)
+    
     return render(request, 'home/index.html',{
-        'product_list': product_list
+        'product_list': page_obj
     })
 
+
+def quick_view(request, product_slug):
+    print("Quick view for product:", product_slug)
+    product = get_object_or_404(Product, slug=product_slug)
+    data = {
+        'name': product.name,
+        'price': product.price,
+        'image': product.get_image(),
+        'description': product.short_description,
+    }
+    return JsonResponse(data)

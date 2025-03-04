@@ -2,6 +2,605 @@
 {% load static %}
 
 {% block slider %}
+<style>
+	/* Basic button styling */
+	.block2-btn {
+		display: inline-block;
+		margin: 10px;
+		padding: 10px 20px;
+		text-decoration: none;
+		color: white;
+		background-color: #333;
+		border-radius: 5px;
+		transition: background-color 0.3s;
+	}
+
+	.block2-btn:hover {
+		background-color: #555;
+	}
+
+	/* Popup styling */
+	.popup {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		justify-content: center;
+		align-items: center;
+		overflow-y: auto;
+	}
+
+	.popup-content {
+		background-color: white;
+		padding: 20px;
+		border-radius: 10px;
+		width: 90%;
+		max-width: 1200px;
+		position: relative;
+	}
+
+	.close-btn {
+		position: absolute;
+		top: 10px;
+		right: 15px;
+		font-size: 20px;
+		cursor: pointer;
+	}
+
+	.close-btn:hover {
+		color: red;
+	}
+
+	/* Additional styles for the product details */
+	.container {
+		width: 100%;
+	}
+
+	.bg0 {
+		background-color: #fff;
+	}
+
+	.p-t-60 {
+		padding-top: 60px;
+	}
+
+	.p-b-30 {
+		padding-bottom: 30px;
+	}
+
+	.p-lr-15-lg {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.how-pos3-parent {
+		position: relative;
+	}
+
+	.hov3 {
+		transition: all 0.3s;
+	}
+
+	.trans-04 {
+		transition: all 0.4s;
+	}
+
+	.js-hide-modal1 {
+		cursor: pointer;
+	}
+
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		margin: -15px;
+	}
+
+	.col-md-6 {
+		width: 50%;
+		padding: 15px;
+	}
+
+	.p-b-30 {
+		padding-bottom: 30px;
+	}
+
+	.p-l-25 {
+		padding-left: 25px;
+	}
+
+	.p-r-30 {
+		padding-right: 30px;
+	}
+
+	.p-lr-0-lg {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.wrap-slick3 {
+		position: relative;
+	}
+
+	.slick3 {
+		display: flex;
+		overflow: hidden;
+	}
+
+	.item-slick3 {
+		flex: 0 0 100%;
+		transition: transform 0.5s;
+	}
+
+	.wrap-pic-w {
+		position: relative;
+	}
+
+	.wrap-pic-w img {
+		width: 100%;
+		height: auto;
+	}
+
+	.flex-c-m {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.size-108 {
+		width: 108px;
+		height: 108px;
+	}
+
+	.bor0 {
+		border: none;
+	}
+
+	.fs-16 {
+		font-size: 16px;
+	}
+
+	.cl10 {
+		color: #fff;
+	}
+
+	.bg0 {
+		background-color: #000;
+	}
+
+	.hov-btn3 {
+		transition: all 0.3s;
+	}
+
+	.hov-btn3:hover {
+		opacity: 0.8;
+	}
+
+	.mtext-105 {
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	.mtext-106 {
+		font-size: 20px;
+		color: #333;
+	}
+
+	.stext-102 {
+		font-size: 16px;
+		color: #666;
+	}
+
+	.p-t-23 {
+		padding-top: 23px;
+	}
+
+	.flex-w {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.flex-r-m {
+		flex-direction: row-reverse;
+	}
+
+	.p-b-10 {
+		padding-bottom: 10px;
+	}
+
+	.size-203 {
+		width: 100px;
+	}
+
+	.respon6 {
+		display: flex;
+		align-items: center;
+	}
+
+	.rs1-select2 {
+		position: relative;
+	}
+
+	.bor8 {
+		border: 1px solid #e6e6e6;
+		border-radius: 5px;
+	}
+
+	.js-select2 {
+		width: 100%;
+		padding: 10px;
+		border: none;
+		outline: none;
+	}
+
+	.dropDownSelect2 {
+		position: absolute;
+		top: 50%;
+		right: 10px;
+		transform: translateY(-50%);
+		pointer-events: none;
+	}
+
+	.wrap-num-product {
+		display: flex;
+		align-items: center;
+	}
+
+	.btn-num-product-down,
+	.btn-num-product-up {
+		cursor: pointer;
+		padding: 5px;
+	}
+
+	.num-product {
+		width: 50px;
+		text-align: center;
+	}
+
+	.stext-101 {
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.cl0 {
+		color: #000;
+	}
+
+	.size-101 {
+		width: 100%;
+		padding: 10px;
+	}
+
+	.bg1 {
+		background-color: #333;
+	}
+
+	.bor1 {
+		border: 1px solid #333;
+	}
+
+	.hov-btn1 {
+		transition: all 0.3s;
+	}
+
+	.hov-btn1:hover {
+		background-color: #555;
+	}
+
+	.p-lr-15 {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.trans-04 {
+		transition: all 0.4s;
+	}
+
+	.js-addcart-detail {
+		cursor: pointer;
+	}
+</style<style>
+	/* Basic button styling */
+	.block2-btn {
+		display: inline-block;
+		margin: 10px;
+		padding: 10px 20px;
+		text-decoration: none;
+		color: white;
+		background-color: #333;
+		border-radius: 5px;
+		transition: background-color 0.3s;
+	}
+
+	.block2-btn:hover {
+		background-color: #555;
+	}
+
+	/* Popup styling */
+	.popup {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		justify-content: center;
+		align-items: center;
+		overflow-y: auto;
+	}
+
+	.popup-content {
+		background-color: white;
+		padding: 20px;
+		border-radius: 10px;
+		width: 90%;
+		max-width: 1200px;
+		position: relative;
+	}
+
+	.close-btn {
+		position: absolute;
+		top: 10px;
+		right: 15px;
+		font-size: 20px;
+		cursor: pointer;
+	}
+
+	.close-btn:hover {
+		color: red;
+	}
+
+	/* Additional styles for the product details */
+	.container {
+		width: 100%;
+	}
+
+	.bg0 {
+		background-color: #fff;
+	}
+
+	.p-t-60 {
+		padding-top: 60px;
+	}
+
+	.p-b-30 {
+		padding-bottom: 30px;
+	}
+
+	.p-lr-15-lg {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.how-pos3-parent {
+		position: relative;
+	}
+
+	.hov3 {
+		transition: all 0.3s;
+	}
+
+	.trans-04 {
+		transition: all 0.4s;
+	}
+
+	.js-hide-modal1 {
+		cursor: pointer;
+	}
+
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		margin: -15px;
+	}
+
+	.col-md-6 {
+		width: 50%;
+		padding: 15px;
+	}
+
+	.p-b-30 {
+		padding-bottom: 30px;
+	}
+
+	.p-l-25 {
+		padding-left: 25px;
+	}
+
+	.p-r-30 {
+		padding-right: 30px;
+	}
+
+	.p-lr-0-lg {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.wrap-slick3 {
+		position: relative;
+	}
+
+	.slick3 {
+		display: flex;
+		overflow: hidden;
+	}
+
+	.item-slick3 {
+		flex: 0 0 100%;
+		transition: transform 0.5s;
+	}
+
+	.wrap-pic-w {
+		position: relative;
+	}
+
+	.wrap-pic-w img {
+		width: 100%;
+		height: auto;
+	}
+
+	.flex-c-m {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.size-108 {
+		width: 108px;
+		height: 108px;
+	}
+
+	.bor0 {
+		border: none;
+	}
+
+	.fs-16 {
+		font-size: 16px;
+	}
+
+	.cl10 {
+		color: #fff;
+	}
+
+	.bg0 {
+		background-color: #000;
+	}
+
+	.hov-btn3 {
+		transition: all 0.3s;
+	}
+
+	.hov-btn3:hover {
+		opacity: 0.8;
+	}
+
+	.mtext-105 {
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	.mtext-106 {
+		font-size: 20px;
+		color: #333;
+	}
+
+	.stext-102 {
+		font-size: 16px;
+		color: #666;
+	}
+
+	.p-t-23 {
+		padding-top: 23px;
+	}
+
+	.flex-w {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.flex-r-m {
+		flex-direction: row-reverse;
+	}
+
+	.p-b-10 {
+		padding-bottom: 10px;
+	}
+
+	.size-203 {
+		width: 100px;
+	}
+
+	.respon6 {
+		display: flex;
+		align-items: center;
+	}
+
+	.rs1-select2 {
+		position: relative;
+	}
+
+	.bor8 {
+		border: 1px solid #e6e6e6;
+		border-radius: 5px;
+	}
+
+	.js-select2 {
+		width: 100%;
+		padding: 10px;
+		border: none;
+		outline: none;
+	}
+
+	.dropDownSelect2 {
+		position: absolute;
+		top: 50%;
+		right: 10px;
+		transform: translateY(-50%);
+		pointer-events: none;
+	}
+
+	.wrap-num-product {
+		display: flex;
+		align-items: center;
+	}
+
+	.btn-num-product-down,
+	.btn-num-product-up {
+		cursor: pointer;
+		padding: 5px;
+	}
+
+	.num-product {
+		width: 50px;
+		text-align: center;
+	}
+
+	.stext-101 {
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.cl0 {
+		color: #000;
+	}
+
+	.size-101 {
+		width: 100%;
+		padding: 10px;
+	}
+
+	.bg1 {
+		background-color: #333;
+	}
+
+	.bor1 {
+		border: 1px solid #333;
+	}
+
+	.hov-btn1 {
+		transition: all 0.3s;
+	}
+
+	.hov-btn1:hover {
+		background-color: #555;
+	}
+
+	.p-lr-15 {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.trans-04 {
+		transition: all 0.4s;
+	}
+
+	.js-addcart-detail {
+		cursor: pointer;
+	}
+</style>
 <!-- Slider -->
 <section class="section-slide">
 	<div class="wrap-slick1">
@@ -416,52 +1015,188 @@
 			</div>
 		</div>
 
-		<div class="row isotope-grid">
+		<div class="row isotope-grid" id="product-grid">
 			{% for item in product_list %}
 			<a href="{% url 'product' item.product.slug %}">
-			<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-				<!-- Block2 -->
-				<div class="block2">
-					<div class="block2-pic hov-img0">
-						<img src="{{item.product.get_image}}" alt="IMG-PRODUCT">
-
-						<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-							Quick View
-						</a> 
-					</div>
-
-					<div class="block2-txt flex-w flex-t p-t-14">
-						<div class="block2-txt-child1 flex-col-l ">
-							<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-								{{item.product.name}}
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="{{ item.product.get_image }}" alt="IMG-PRODUCT">
+							{% comment %} <a href="#" id="quickView" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+								Quick View
+							</a> {% endcomment %}
+							<a href="#" class="block2-btn" onclick="showPopup('popup1'); return false;">
+								Quick View 1
 							</a>
-
-							<span class="stext-105 cl3">
-								${{item.product.price}}
-							</span>
 						</div>
-
-						<div class="block2-txt-child2 flex-r p-t-3">
-							<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-								<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-							</a>
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									{{ item.product.name }}
+								</a>
+								<span class="stext-105 cl3">
+									${{ item.product.price }}
+								</span>
+							</div>
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</a>
+			</a>
+			<input type="text" id="productSlug" style="display: none;" value="{{ item.product.slug }}">
 			{% endfor %}
 		</div>
-				
-
-		<!-- Load more -->
+		
+		<!-- Load more button -->
 		<div class="flex-c-m flex-w w-full p-t-45">
-			<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+			<a href="#" id="load-more" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" data-page="2">
 				Load More
 			</a>
 		</div>
 	</div>
+	  <!-- Popup -->
+	<div id="popup1" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup('popup1')">&times;</span>
+            <div class="container">
+                <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+                    <button class="how-pos3 hov3 trans-04 js-hide-modal1" onclick="closePopup('popup1')">
+                        <img src="images/icons/icon-close.png" alt="CLOSE">
+                    </button>
+
+                    <div class="row">
+                        <div class="col-md-6 col-lg-7 p-b-30">
+                            <div class="p-l-25 p-r-30 p-lr-0-lg">
+                                <div class="wrap-slick3 flex-sb flex-w">
+                                    <div class="wrap-slick3-dots"></div>
+                                    <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+                                    <div class="slick3 gallery-lb" id="product-images">
+                                        <!-- Images will be dynamically inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-5 p-b-30">
+                            <div class="p-r-50 p-t-5 p-lr-0-lg">
+                                <h4 class="mtext-105 cl2 js-name-detail p-b-14" id="product-name">
+                                    <!-- Product name will be dynamically inserted here -->
+                                </h4>
+
+                                <span class="mtext-106 cl2" id="product-price">
+                                    <!-- Product price will be dynamically inserted here -->
+                                </span>
+
+                                <p class="stext-102 cl3 p-t-23" id="product-description">
+                                    <!-- Product description will be dynamically inserted here -->
+                                </p>
+
+                                <div class="p-t-33">
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-203 flex-c-m respon6">
+                                            Size
+                                        </div>
+
+                                        <div class="size-204 respon6-next">
+                                            <div class="rs1-select2 bor8 bg0">
+                                                <select class="js-select2" name="size">
+                                                    <option>Choose an option</option>
+                                                    <option>Size S</option>
+                                                    <option>Size M</option>
+                                                    <option>Size L</option>
+                                                    <option>Size XL</option>
+                                                </select>
+                                                <div class="dropDownSelect2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-203 flex-c-m respon6">
+                                            Color
+                                        </div>
+
+                                        <div class="size-204 respon6-next">
+                                            <div class="rs1-select2 bor8 bg0">
+                                                <select class="js-select2" name="color">
+                                                    <option>Choose an option</option>
+                                                    <option>Red</option>
+                                                    <option>Blue</option>
+                                                    <option>White</option>
+                                                    <option>Grey</option>
+                                                </select>
+                                                <div class="dropDownSelect2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-204 flex-w flex-m respon6-next">
+                                            <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                                <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                    <i class="fs-16 zmdi zmdi-minus"></i>
+                                                </div>
+
+                                                <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+
+                                                <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                    <i class="fs-16 zmdi zmdi-plus"></i>
+                                                </div>
+                                            </div>
+
+                                            <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                                Add to cart
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		document.getElementById('quickView').addEventListener('click', function() {
+			const productSlug = document.getElementById('productSlug').value;
+			const url = `quick-view/${productSlug}`;
+			
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Requested-With': 'XMLHttpRequest',
+				},
+			})
+			.then(response => {
+				if (!response.ok) {
+					return response.json().then(err => { throw new Error(err.message || 'Something went wrong'); });
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log('Product data:', data);
+				// Add logic here to display data in the quick view modal or section
+			})
+			.catch(error => {
+				console.error('Error fetching product data:', error);
+			});
+		});
+	});	
+</script>
+
 {% endblock section %}
 
+document.getElementById('product-name').innerText = data.name;
+document.getElementById('product-price').innerText = `$${data.price}`;
+document.getElementById('product-description').innerText = data.description;

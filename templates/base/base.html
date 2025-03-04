@@ -816,7 +816,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <!--===============================================================================================-->
 	<script src="{% static 'js/main.js' %}"></script>
 
-	<script>
+	{% comment %} <script>
 		document.addEventListener("DOMContentLoaded", function () {
 			document.querySelectorAll('.js-show-modal1').forEach(button => {
 				button.addEventListener('click', function (event) {
@@ -851,7 +851,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		});
 		
 
-	</script>
+	</script> {% endcomment %}
 	<script>
         const searchInput = document.getElementById('search-input');
         const searchHistoryBox = document.getElementById('search-history');
