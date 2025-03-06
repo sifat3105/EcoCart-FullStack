@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.core.paginator import Paginator 
 from products.views import all_product_views, Category
 import requests
@@ -63,38 +64,12 @@ def fetch_and_create_products(request):
 
 def home_views(request):
     # fetch_and_create_products(request)
-    all_products= all_product_views(request)
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        print("AJAX request received")
-        # Handle AJAX request for loading more products
-        page_number = request.GET.get('page', 1)  # Get the page number from the request
-        paginator = Paginator(all_products, 10)  # Show 10 products per page
-        page_obj = paginator.get_page(page_number)
+    all_products= all_product_views(request)[:10]
+    total_products = Product.objects.all().count()
 
-        # Serialize the products for JSON response
-        product_data = [
-            {
-                'name': product.name,
-                'price': product.price,
-                'image': product.get_image(),
-                'slug': product.slug,
-            }
-            for product in page_obj
-        ]
-
-        # Return JSON response
-        return JsonResponse({
-            'products': product_data,
-            'has_next': page_obj.has_next(),
-        })
-
-    else:
-        # Handle initial page load
-        paginator = Paginator(all_products, 10)  # Show 10 products per page
-        page_obj = paginator.get_page(1)
-    
     return render(request, 'home/index.html',{
-        'product_list': page_obj
+        'product_list': all_products,
+        'total_products': total_products
     })
 
 
@@ -108,3 +83,14 @@ def quick_view(request, product_slug):
         'description': product.short_description,
     }
     return JsonResponse(data)
+
+def load_more(request):
+    offset = int(request.GET.get('offset', 0))
+    limit = int(request.GET.get('limit', 10))
+    all_products= all_product_views(request)[offset:offset+limit]
+    total_products = Product.objects.all().count()
+
+    data= render_to_string('product/partials/product_list.html', {'product_list': all_products})
+    return JsonResponse({
+        'data': data
+    })

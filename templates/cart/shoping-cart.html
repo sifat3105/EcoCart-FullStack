@@ -318,33 +318,7 @@
             });
         });
     });
-    document.addEventListener('DOMContentLoaded', function() {
-		document.getElementById('quickView').addEventListener('click', function() {
-			const productSlug = document.getElementById('productSlug').value;
-			const url = `quick-view/${productSlug}`;
-			
-			fetch(url, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Requested-With': 'XMLHttpRequest',
-				},
-			})
-			.then(response => {
-				if (!response.ok) {
-					return response.json().then(err => { throw new Error(err.message || 'Something went wrong'); });
-				}
-				return response.json();
-			})
-			.then(data => {
-				console.log('Product data:', data);
-				// Add logic here to display data in the quick view modal or section
-			})
-			.catch(error => {
-				console.error('Error fetching product data:', error);
-			});
-		});
-	});	
+    
 </script>
 
 
