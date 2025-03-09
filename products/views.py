@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.template.loader import render_to_string
 from django.urls import reverse
 from .models import Product, ProductImage, Category
 from accounts.models import Seller
@@ -148,11 +149,10 @@ def product_search(request):
     query = request.GET.get('q', '')
 
     if query:
-        products = Product.objects.filter(name__icontains=query)  # Case-insensitive search
+        products = Product.objects.filter(name__icontains=query)
     else:
         products = Product.objects.all()  # Show all if no query
     categories = Category.objects.filter(products__in=products).distinct()
-    print(categories)
     context = {
         'products': products,
         'query': query,
@@ -166,6 +166,7 @@ def generate_random_string(length=10):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 def search_redirect(request):
+    print(request.GET)
     query = request.GET.get('q', '').strip()  # Get search query and remove extra spaces
     
     if not query:
@@ -199,3 +200,20 @@ def search_redirect(request):
 
     # Redirect to product search page with query parameters
     return HttpResponseRedirect(f"{reverse('product_search')}?{query_string}")
+
+
+def quick_view(request, product_slug):
+    product = get_object_or_404(Product, slug=product_slug)
+    images = ProductImage.objects.filter(product=product)
+
+    context = {
+        "product": product,
+        "images": images,
+    }
+
+    model_html = render_to_string('product/partials/quick_view_image.html', context)
+    context.clear()
+    data = {
+        "model_html": model_html
+    }
+    return JsonResponse(data)

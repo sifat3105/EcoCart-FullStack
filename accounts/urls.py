@@ -10,5 +10,7 @@ urlpatterns = [
     path('seller/dashboard/', views.seller_dashboard_view, name='seller_dashboard'),
     path('register/', views.customer_register, name='register'),
     path('authentication/', views.customer_login, name='authentication'),
-    path('logout/', views.customer_logout, name='logout')
+    path('auth_reverse/', views.auth_reverse, name='auth_reverse'),
+    path('', views.account_views, name='my-account'),
+    path('logout/', views.customer_logout, name='logout'),
 ]

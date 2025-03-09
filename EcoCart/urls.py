@@ -11,10 +11,10 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('shipping/', include('shipping.urls')),
     path('checkout/', include('checkout.urls')),
-    # path('order/', include('order.urls')),
+    path('order/', include('order.urls')),
     # path('review/', include('review.urls')),
     path('discounts/', include('discounts.urls')),
-    # path('payment/', include('payment.urls')),
+    path('payment/', include('payment.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

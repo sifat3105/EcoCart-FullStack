@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-w$hna+il0ctq%k&%97-%_-8nv775y55l@6zif2+^mbt0!b3&jw
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['sifat360.zapto.org', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['sifat360.zapto.org', 'localhost', '127.0.0.1', *]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +49,40 @@ INSTALLED_APPS = [
     'payment',
     'shipping',
 ]
+# JAZZMIN_SETTINGS = {
+#     # Title on the brand (19 chars max)
+#     "site_title": "EcoCart Panel",
+#     # Title on the login screen (19 chars max)
+#     "site_header": "Admin Panel",
+#     # Logo to use for your site
+#     "site_logo": "static/images/icons/EcoCart.jpg",
+#     # Welcome text on the login screen
+#     "welcome_sign": "Welcome to the Admin Panel",
+#     # Copyright on the footer
+#     "copyright": "Your Company Name",
+#     # Custom icons for side menu apps/models
+#     "icons": {
+#         "auth": "fas fa-users-cog",
+#         "auth.user": "fas fa-user",
+#         "auth.Group": "fas fa-users",
+#     },
+#     # Customize the order of apps/models in the side menu
+#     "order_with_respect_to": ["auth", "your_app_name"],
+#     # Hide specific apps or models from the side menu
+#     "hide_apps": [],
+#     "hide_models": [],
+#     # Custom links to add to the side menu
+#     "custom_links": {
+#         "your_app_name": [{
+#             "name": "Make Messages",
+#             "url": "make_messages",
+#             "icon": "fas fa-comments",
+#             "permissions": ["your_app_name.view_related_model"]
+#         }]
+#     },
+#     # Theme settings
+#     "theme": "dark",  # Options: "light", "dark", "slate"
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -133,6 +169,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+SSL_COMMERZ_STORE_ID = 'niyam6412dc52e1e89'
+SSL_COMMERZ_STORE_PASSWORD = 'niyam6412dc52e1e89@ssl'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

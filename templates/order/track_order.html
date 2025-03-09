@@ -1,0 +1,178 @@
+{% extends "base/base2.html" %}
+{% block title %}Tracking Order{% endblock title %}
+
+{% block section %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<div class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <!-- Left Column: Order Tracking Timeline -->
+            <div class="col-lg-7 col-xl-7 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 dynamic-box" style="background: linear-gradient(135deg, #f9f9f9, #ffffff); border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); animation: fadeInLeft 1s ease;">
+                    <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                        <i class="fas fa-truck" style="margin-right: 10px;"></i> Track Order
+                    </h4>
+
+                    <!-- Order Tracking Timeline -->
+                    <div class="timeline">
+                        {% for update in shipping_updates %}
+                            <div class="timeline-step" style="margin-bottom: 30px;">
+                                <div class="timeline-icon" style="background: {% if update.status == 'Processing' %}#2196F3{% elif update.status == 'Shipped' %}#4CAF50{% elif update.status == 'Picked up' %}#FF9800{% elif update.status == 'In Transit' %}#9C27B0{% elif update.status == 'Out for Delivery' %}#FFC107{% elif update.status == 'Delivered' %}#4CAF50{% elif update.status == 'Delayed' %}#F44336{% elif update.status == 'Returned' %}#9C27B0{% elif update.status == 'Cancelled' %}#F44336{% endif %}; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <!-- Dynamic Icon Based on Status -->
+                                    {% if update.status == 'Processing' %}
+                                        <i class="fas fa-cog" style="color: #fff;"></i>
+                                    {% elif update.status == 'Shipped' %}
+                                        <i class="fas fa-shipping-fast" style="color: #fff;"></i>
+                                    {% elif update.status == 'Picked up' %}
+                                        <i class="fas fa-box-open" style="color: #fff;"></i>
+                                    {% elif update.status == 'In Transit' %}
+                                        <i class="fas fa-truck-moving" style="color: #fff;"></i>
+                                    {% elif update.status == 'Out for Delivery' %}
+                                        <i class="fas fa-truck" style="color: #fff;"></i>
+                                    {% elif update.status == 'Delivered' %}
+                                        <i class="fas fa-check-circle" style="color: #fff;"></i>
+                                    {% elif update.status == 'Delayed' %}
+                                        <i class="fas fa-exclamation-triangle" style="color: #fff;"></i>
+                                    {% elif update.status == 'Returned' %}
+                                        <i class="fas fa-undo" style="color: #fff;"></i>
+                                    {% elif update.status == 'Cancelled' %}
+                                        <i class="fas fa-times-circle" style="color: #fff;"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="timeline-content" style="margin-left: 20px;">
+                                    <h5 class="mtext-109 cl2" style="font-size: 18px; font-weight: 600; color: #333;">
+                                        {{ update.status }}
+                                    </h5>
+                                    <p class="stext-110 cl2" style="font-size: 14px; color: #555;">
+                                        {{ update.timestamp|date:"d-m-Y H:i" }}
+                                    </p>
+                                    {% if update.description %}
+                                        <p class="stext-110 cl2" style="font-size: 14px; color: #555;">
+                                            {{ update.description }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Order Details and Map -->
+            <div class="col-lg-5 col-xl-5 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 dynamic-box" style="background: linear-gradient(135deg, #f9f9f9, #ffffff); border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); animation: fadeInRight 1s ease;">
+                    <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                        <i class="fas fa-info-circle" style="margin-right: 10px;"></i> Order Details
+                    </h4>
+
+                    <!-- Order Summary -->
+                    <div class="mb-4">
+                        <p class="stext-110 cl2" style="font-size: 16px; color: #555;">
+                            <strong>Order ID:</strong> {{ order.order_id }}
+                        </p>
+                        <p class="stext-110 cl2" style="font-size: 16px; color: #555;">
+                            <strong>Order Date:</strong> {{ order.created_at|date:"d-m-Y H:i" }}
+                        </p>
+                        <p class="stext-110 cl2" style="font-size: 16px; color: #555;">
+                            <strong>Status:</strong> {{ order.status }}
+                        </p>
+                    </div>
+
+                    <!-- Delivery Address -->
+                    <div class="mb-4">
+                        <h5 class="mtext-109 cl2 p-b-10" style="font-size: 20px; font-weight: 600; color: #333;">
+                            Delivery Address
+                        </h5>
+                        <p class="stext-110 cl2" style="font-size: 16px; color: #555;">
+                            {{ order.shipping_address }}
+                        </p>
+                    </div>
+
+                    <!-- Map (Dynamic Address) -->
+                    <div class="mb-4">
+                        <h5 class="mtext-109 cl2 p-b-10" style="font-size: 20px; font-weight: 600; color: #333;">
+                            Delivery Location
+                        </h5>
+                        <div id="map" style="height: 200px; border-radius: 8px; overflow: hidden;">
+                            <!-- Dynamic Google Map Embed -->
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                style="border:0"
+                                loading="lazy"
+                                allowfullscreen
+                                src="https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q={{ order.shipping_address|urlencode }}">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <!-- Return to Home Button -->
+                        <a href="/" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button" style="background: linear-gradient(135deg, #4CAF50, #45a049); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-home" style="margin-right: 8px;"></i> Return to Home
+                        </a>
+
+                        <!-- Contact Support Button -->
+                        <a href="/contact-support" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button" style="background: linear-gradient(135deg, #2196F3, #21b0f3); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-headset" style="margin-right: 8px;"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animations and Button Hover Effects */
+    @keyframes fadeInLeft {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    .dynamic-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    /* Timeline Styling */
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+
+    .timeline-step {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .timeline-step:not(:last-child)::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 30px;
+        height: calc(100% - 30px);
+        width: 2px;
+        background: #ddd;
+    }
+
+    .timeline-icon {
+        z-index: 1;
+    }
+
+    .timeline-content {
+        flex: 1;
+    }
+</style>
+
+<!-- Font Awesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+{% endblock section %}

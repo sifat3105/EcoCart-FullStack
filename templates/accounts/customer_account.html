@@ -1,0 +1,324 @@
+{% extends "base/base2.html" %}
+
+{% block title %}My Account{% endblock title %}
+
+{% block section %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<div class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <!-- Left Column: Fixed Sidebar -->
+            <div class="col-lg-4 col-xl-4 m-lr-auto m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 dynamic-box" style="background: linear-gradient(135deg, #f9f9f9, #ffffff); border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: sticky; top: 20px;">
+                    <!-- User Profile Section -->
+                    <div class="text-center mb-4">
+                        <img src="{{ user.profile_image }}" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid #4CAF50;">
+                        <h4 class="mtext-109 cl2 p-t-15" style="font-size: 24px; font-weight: 600; color: #333;">
+                            {{ user.first_name }} {{ user.last_name }}
+                        </h4>
+                        <p class="stext-110 cl2" style="font-size: 16px; color: #555;">
+                            {{ user.email }}
+                        </p>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="mb-4">
+                        <button onclick="loadSection('order-history')" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button mb-3 w-100" style="background: linear-gradient(135deg, #4CAF50, #45a049); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-history" style="margin-right: 8px;"></i> Order History
+                        </button>
+                        <button onclick="loadSection('wishlist')" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button mb-3 w-100" style="background: linear-gradient(135deg, #ff4b2b, #ff416c); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-heart" style="margin-right: 8px;"></i> Wishlist
+                        </button>
+                        <button onclick="loadSection('cart')" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button mb-3 w-100" style="background: linear-gradient(135deg, #2196F3, #21b0f3); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Cart View
+                        </button>
+                        <button onclick="loadSection('address-book')" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button mb-3 w-100" style="background: linear-gradient(135deg, #9C27B0, #ab47bc); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-address-book" style="margin-right: 8px;"></i> Address Book
+                        </button>
+                        <button onclick="loadSection('profile-edit')" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button mb-3 w-100" style="background: linear-gradient(135deg, #FF9800, #fb8c00); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-user-edit" style="margin-right: 8px;"></i> Edit Profile
+                        </button>
+                    </div>
+
+                    <!-- Account Security Section -->
+                    <div class="mb-4">
+                        <h5 class="mtext-109 cl2 p-b-10" style="font-size: 18px; font-weight: 600; color: #333;">
+                            <i class="fas fa-shield-alt" style="margin-right: 8px;"></i> Account Security
+                        </h5>
+                        <p class="stext-110 cl2" style="font-size: 14px; color: #555;">
+                            Last Login: {{ user.last_login }}
+                        </p>
+                        <button onclick="loadSection('change-password')" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button w-100" style="background: linear-gradient(135deg, #607D8B, #78909C); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                            <i class="fas fa-lock" style="margin-right: 8px;"></i> Change Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Dynamic Content -->
+            <div class="col-lg-8 col-xl-8 m-lr-auto m-b-50">
+                <div id="dynamic-content" class="bor10 p-lr-40 p-t-30 p-b-40 dynamic-box" style="background: linear-gradient(135deg, #f9f9f9, #ffffff); border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); animation: fadeInRight 1s ease;">
+                    <!-- Default Content (Order History) -->
+                    <div id="order-history">
+                        <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                            <i class="fas fa-history" style="margin-right: 10px;"></i> Order History
+                        </h4>
+                        <ul class="list-unstyled" id="order-list">
+                            <!-- Initial 6 Orders -->
+                            {% for order in orders|slice:":6" %}
+                                <li class="stext-110 cl2 order-item" style="font-size: 16px; color: #555; margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <div>
+                                            <strong>Order ID:</strong> {{ order.order_id }}<br>
+                                            <strong>Date:</strong> {{ order.created_at|date:"d-m-Y H:i" }}<br>
+                                            <strong>Total:</strong> ${{ order.total }}<br>
+                                            <strong>Status:</strong> {{ order.status }} <br>
+                                            <a href="{% url 'order-details' %}?{{uuid}}&user={{request.user}}{{uuid}}&order_id={{order.order_id}}" class="product-details-btn" style="background: #4CAF50; color: #fff; font-size: 14px; font-weight: 100; padding: 3px 6px; border-radius: 4px; text-decoration: none;">
+                                                <i class="fas fa-info-circle" style="margin-right: 5px;"></i> Product Details
+                                            </a>
+                                        </div>
+                                        <div style="display: flex; align-items: center;">
+                                            {% for item in order.items.all %}
+                                                <img src="{{ item.product.get_image }}" alt="{{ item.product.name }}" style="width: 60px; height: 60px; border-radius: 4px; margin-right: 5px;">
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    
+                        <!-- See More Button -->
+                        {% if orders|length > 6 %}
+                            <div class="text-center">
+                                <button id="see-more-btn" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button" style="background: linear-gradient(135deg, #4CAF50, #45a049); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                                    <i class="fas fa-arrow-down" style="margin-right: 8px;"></i> See More
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Other Sections (Hidden by Default) -->
+                    <div id="wishlist" class="hidden-section">
+                        <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                            <i class="fas fa-heart" style="margin-right: 10px;"></i> Wishlist
+                        </h4>
+                        <ul class="list-unstyled">
+                            {% for item in wishlist %}
+                                <li class="stext-110 cl2" style="font-size: 16px; color: #555; margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); display: flex; align-items: center;">
+                                    <img src="{{ item.product.get_image }}" alt="{{ item.product.name }}" style="width: 60px; height: 60px; border-radius: 8px; margin-right: 15px;">
+                                    <div>
+                                        <strong>{{ item.product.name }}</strong> - ${{ item.product.price }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div id="cart" class="hidden-section">
+                        <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                            <i class="fas fa-shopping-cart" style="margin-right: 10px;"></i> Cart View
+                        </h4>
+                        <p class="stext-110 cl2" style="font-size: 16px; color: #555;">
+                            Your cart is currently empty.
+                        </p>
+                    </div>
+
+                    <div id="address-book" class="hidden-section">
+                        <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                            <i class="fas fa-address-book" style="margin-right: 10px;"></i> Address Book
+                        </h4>
+                        <ul class="list-unstyled">
+                            {% for address in addresses %}
+                                <li class="stext-110 cl2" style="font-size: 16px; color: #555; margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                                    <strong>{{ address.name }}</strong><br>
+                                    {{ address.street }}, {{ address.city }}, {{ address.state }}, {{ address.zip }}<br>
+                                    {{ address.country }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div id="profile-edit" class="hidden-section">
+                        <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                            <i class="fas fa-user-edit" style="margin-right: 10px;"></i> Edit Profile
+                        </h4>
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label stext-110 cl2">Full Name</label>
+                                <input type="text" class="form-control" id="name" value="{{ user.name }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label stext-110 cl2">Email</label>
+                                <input type="email" class="form-control" id="email" value="{{ user.email }}">
+                            </div>
+                            <button type="submit" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button" style="background: linear-gradient(135deg, #4CAF50, #45a049); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                                <i class="fas fa-save" style="margin-right: 8px;"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+
+                    <div id="change-password" class="hidden-section">
+                        <h4 class="mtext-109 cl2 p-b-30" style="font-size: 24px; font-weight: 600; color: #333;">
+                            <i class="fas fa-lock" style="margin-right: 10px;"></i> Change Password
+                        </h4>
+                        <form>
+                            <div class="mb-3">
+                                <label for="current-password" class="form-label stext-110 cl2">Current Password</label>
+                                <input type="password" class="form-control" id="current-password">
+                            </div>
+                            <div class="mb-3">
+                                <label for="new-password" class="form-label stext-110 cl2">New Password</label>
+                                <input type="password" class="form-control" id="new-password">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirm-password" class="form-label stext-110 cl2">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirm-password">
+                            </div>
+                            <button type="submit" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer dynamic-button" style="background: linear-gradient(135deg, #4CAF50, #45a049); font-size: 14px; font-weight: 600; padding: 10px 20px;">
+                                <i class="fas fa-save" style="margin-right: 8px;"></i> Update Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    /* Hidden Orders */
+    .hidden-order {
+        display: none;
+    }
+
+    /* Button Hover Effect */
+    .dynamic-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+    /* Product Details Button Styling */
+    .product-details-btn {
+        background: #4CAF50;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .product-details-btn:hover {
+        background: #45a049;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<script>
+    // JavaScript to handle "See More" button click
+    let visibleOrders = 6; // Initially show 6 orders
+    const orderList = document.getElementById('order-list');
+    const seeMoreBtn = document.getElementById('see-more-btn');
+    const allOrders = [
+        {% for order in orders %}
+            {
+                order_id: "{{ order.order_id }}",
+                date: "{{ order.created_at|date:'d-m-Y H:i' }}",
+                total: "${{ order.total }}",
+                status: "{{ order.status }}",
+                items: [
+                    {% for item in order.items.all %}
+                        {
+                            image: "{{ item.product.get_image }}",
+                            name: "{{ item.product.name }}",
+                            quantity: "{{ item.quantity }}",
+                            price: "${{ item.product.price }}",
+                            total_price: "${{ item.get_total_price }}"
+                        },
+                    {% endfor %}
+                ]
+            },
+        {% endfor %}
+    ];
+
+    seeMoreBtn?.addEventListener('click', function () {
+        // Load the next 6 orders
+        const nextOrders = allOrders.slice(visibleOrders, visibleOrders + 6);
+
+        nextOrders.forEach(order => {
+            const orderItem = document.createElement('li');
+            orderItem.className = 'stext-110 cl2 order-item';
+            orderItem.style = 'font-size: 16px; color: #555; margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);';
+
+            const orderContent = `
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <strong>Order ID:</strong> ${order.order_id}<br>
+                        <strong>Date:</strong> ${order.date}<br>
+                        <strong>Total:</strong> ${order.total}<br>
+                        <strong>Status:</strong> ${order.status}
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        ${order.items.map(item => `
+                            <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; border-radius: 4px; margin-right: 5px;">
+                        `).join('')}
+                    </div>
+                </div>
+                <a href="">product details</a>
+            `;
+
+            orderItem.innerHTML = orderContent;
+            orderList.appendChild(orderItem);
+        });
+
+        // Update the number of visible orders
+        visibleOrders += 6;
+
+        // Hide the "See More" button if all orders are visible
+        if (visibleOrders >= allOrders.length) {
+            seeMoreBtn.style.display = 'none';
+        }
+    });
+</script>
+<style>
+    /* Animations and Button Hover Effects */
+    @keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    .dynamic-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .hidden-section {
+        display: none;
+    }
+</style>
+
+<script>
+    // JavaScript to handle section loading
+    function loadSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('#dynamic-content > div').forEach(div => {
+            div.classList.add('hidden-section');
+        });
+
+        // Show the selected section
+        document.getElementById(sectionId).classList.remove('hidden-section');
+    }
+
+    // Set default section to Order History
+    window.onload = () => {
+        loadSection('order-history');
+    };
+</script>
+
+<!-- Font Awesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+{% endblock section %}

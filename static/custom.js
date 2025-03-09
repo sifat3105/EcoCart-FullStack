@@ -20,7 +20,7 @@ $(document).ready(function() {
                 $('#loadMore').attr('disabled', true);
             },
             success: function(res) {
-                // Ensure that the new products are appended without causing overlap
+                // Ensure that the new products are appended without causing overlap 
                 $('#productGrid').append(res.data);
                 $('#loadMore').attr('disabled', false);
             },

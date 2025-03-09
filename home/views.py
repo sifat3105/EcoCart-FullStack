@@ -61,9 +61,7 @@ def fetch_and_create_products(request):
     })
 
 
-
 def home_views(request):
-    # fetch_and_create_products(request)
     all_products= all_product_views(request)[:10]
     total_products = Product.objects.all().count()
 
@@ -73,16 +71,7 @@ def home_views(request):
     })
 
 
-def quick_view(request, product_slug):
-    print("Quick view for product:", product_slug)
-    product = get_object_or_404(Product, slug=product_slug)
-    data = {
-        'name': product.name,
-        'price': product.price,
-        'image': product.get_image(),
-        'description': product.short_description,
-    }
-    return JsonResponse(data)
+
 
 def load_more(request):
     offset = int(request.GET.get('offset', 0))
@@ -94,3 +83,6 @@ def load_more(request):
     return JsonResponse({
         'data': data
     })
+
+def test(request):
+    return render(request, 'order/order_details.html',{'shipping_address': 'bohala-bari market, shibgonj, chapai nawabgonj'})

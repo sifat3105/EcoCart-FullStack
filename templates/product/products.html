@@ -251,7 +251,7 @@
 					<div class="block2-pic hov-img0">
 						<img src="{{ product.get_image }}" alt="IMG-PRODUCT">
 
-						<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+						<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" data-product-slug="{{product.slug}}">
 							Quick View
 						</a>
 					</div>
@@ -289,6 +289,65 @@
 		</div>
 	</div>
 </div>
-	
+
+
+<!-- Modal1 -->
+ <!-- Modal1 -->
+ <div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
+	<div class="overlay-modal1 js-hide-modal1"></div>
+
+	<div class="container">
+		<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent" >
+			<button class="how-pos3 hov3 trans-04 js-hide-modal1">
+				<img src="{% static 'images/icons/icon-close.png' %}" alt="CLOSE">
+			</button>
+			<div class="row" id="productModelContainer">
+
+			</div>
+		</div>
+	</div>
+</div> 
+<script>
+    // Function to fetch product data from the Django API
+    async function fetchProductData(productSlug) {
+        try {
+            const response = await fetch(`/quick-view/${productSlug}/`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch product data');
+            }
+            const data = await response.json();
+
+			$('#productModelContainer').append(data.model_html);
+           
+            // Show the modal
+            document.querySelector('.js-modal1').classList.add('show-modal1');
+        } catch (error) {
+            console.error('Error fetching product data:', error);
+            alert('Failed to load product details. Please try again.');
+        }
+    }
+
+    // Attach event listener to all "Quick View" buttons
+    document.querySelectorAll('.js-show-modal1').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior
+
+            // Get the product slug from the button's data attribute
+            const productSlug = button.getAttribute('data-product-slug');
+
+            // Fetch and display the product data
+            fetchProductData(productSlug);
+        });
+    });
+
+    // Close modal when clicking the close button or overlay
+    document.querySelectorAll('.js-hide-modal1').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelector('.js-modal1').classList.remove('show-modal1');
+			document.getElementById('productModelContainer').innerHTML = '';
+        });
+    });
+</script>
+
 
 {% endblock section %}

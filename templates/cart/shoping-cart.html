@@ -1,9 +1,8 @@
-{% extends "base/base.html" %}
+{% extends "base/base2.html" %}
 {% block title %}Shopping Cart{% endblock title %}
 {% block section %}
 
 <!-- breadcrumb -->
- <br><br><br>
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
         <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
@@ -39,7 +38,7 @@
                             <tr class="table_row">
                                 <td class="column-1">
                                     <div class="how-itemcart1">
-                                        <img src="{{item.product.image.url}}" alt="IMG">
+                                        <img src="{{item.product.get_image}}" alt="IMG">
                                     </div>
                                 </td>
                                 <td class="column-2">{{ item.product.name }}</td>

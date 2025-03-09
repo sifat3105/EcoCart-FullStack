@@ -7,7 +7,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from .models import Seller, Customer
 from .middleware import SellerVerificationMiddleware
-import random, json, re
+from order.models import Order
+from shipping.models import ShoppigData
+import random, json, re, uuid
+
 
 User = get_user_model()
 
@@ -245,6 +248,28 @@ def customer_login(request):
 
     return render(request, 'accounts/customer_auth.html', {"domain": domain})
 
+def auth_reverse(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        return redirect('authentication')
+
 def customer_logout(request):
     logout(request)
     return redirect('authentication')
+a = [1,2,3,4,5,6]
+
+def account_views(request):
+    orders = Order.objects.filter(user=request.user)
+    print(orders)
+    orders_reversed = orders[::-1]
+    print(orders_reversed)
+
+    shipping_addresses = ShoppigData.objects.filter(user=request.user)
+    return render(request, 'accounts/customer_account.html',{
+        'user': request.user,
+        'orders':orders_reversed,
+        'addresses':shipping_addresses,
+        'uuid':uuid.uuid4()
+
+    })
